@@ -1,19 +1,10 @@
 import Head from "next/head";
 import { useState } from "react";
 
-export async function getServerSideProps() {
-  const result = await fetch("https://jsonplaceholder.typicode.com/photos");
-  const data = await result.json();
-  const slicedArray = data.slice(0, 100);
-  return {
-    props: {
-      posts: slicedArray,
-    },
-  };
-}
+// export async function getInitialProps() {}
 
-export default function Home({ posts }: any) {
-  const [allImages, setAllImages]: any = useState(posts);
+export default function Home({ images }: any) {
+  const [allImages, setAllImages] = useState(images);
   return (
     <>
       <Head>
@@ -42,3 +33,12 @@ export default function Home({ posts }: any) {
     </>
   );
 }
+Home.getInitialProps = async function () {
+  const result = await fetch("https://jsonplaceholder.typicode.com/photos");
+  const data = await result.json();
+  const slicedArray = data.slice(0, 100);
+  console.log(slicedArray);
+  return {
+    images: slicedArray,
+  };
+};
